@@ -7,7 +7,7 @@ The volume keys of my phone stopped working so I had to come up with a simple pr
 Icons are downloaded from [Material.io](material.io) and the drawable images are downloaded from [unsplash.com](unsplash.com).
 
 ## Translations
-Translations for the strings are downloaded from [Android Open Source Project](https://source.android.com/source/licenses). It was the easiest way to avold reinventing the wheel.
+Translations for the strings are downloaded from [Android Open Source Project](https://source.android.com/source/licenses). It was the easiest way to avoid reinventing the wheel.
 
 ## Simple Volume Widget App
 App is also available at Google Play [Simple Volume Widget](https://play.google.com/store/apps/details?id=org.ipforsmartobjects.apps.volumekeyswidget&hl=en)

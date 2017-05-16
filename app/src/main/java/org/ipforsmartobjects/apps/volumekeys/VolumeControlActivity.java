@@ -16,7 +16,7 @@ import org.ipforsmartobjects.apps.volumekeys.databinding.VolumeControlBinding;
 
 public class VolumeControlActivity extends AppCompatActivity {
 
-    AudioManager mAudioManager;
+    private AudioManager mAudioManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +45,12 @@ public class VolumeControlActivity extends AppCompatActivity {
         }
     }
 
-    private void setUI(final AppCompatSeekBar seekbar, final int stream) {
+    private void setUI(final AppCompatSeekBar seekBar, final int stream) {
         int max = mAudioManager.getStreamMaxVolume(stream);
         int progress = mAudioManager.getStreamVolume(stream);
-        seekbar.setMax(max);
-        seekbar.setProgress(progress);
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar.setMax(max);
+        seekBar.setProgress(progress);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 try {

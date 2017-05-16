@@ -15,11 +15,11 @@ import org.ipforsmartobjects.apps.volumekeys.VolumeControlActivity;
 
 public class SimpleWidgetProvider extends AppWidgetProvider {
 
-    protected final String MyOnClick_volume_up = "volume_up";
-    protected final String MyOnClick_volume_down = "volume_down";
-    protected final String MyOnClick_mute = "mute";
+    final String MyOnClick_volume_up = "volume_up";
+    final String MyOnClick_volume_down = "volume_down";
+    final String MyOnClick_mute = "mute";
 
-    // TODO: 5/16/2017 okay I know we need to avoid enums :)
+    // yeah I know we need to avoid enums :)
     private enum VolumeEvent{
         UP,
         DOWN,
@@ -44,7 +44,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         }
     }
 
-    protected PendingIntent getPendingSelfIntent(Context context, String action) {
+    PendingIntent getPendingSelfIntent(Context context, String action) {
         Intent intent = new Intent(context, getClass());
         intent.setAction(action);
         return PendingIntent.getBroadcast(context, 0, intent, 0);

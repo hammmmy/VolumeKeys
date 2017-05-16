@@ -14,6 +14,11 @@ android {
     dataBinding {
         enabled = true
     }
+    lintOptions {
+        // Normally this would throw an error
+        // Couldn't find some translations with open licenses
+        warning 'MissingTranslation'
+    }
     buildTypes {
         release {
             minifyEnabled false
