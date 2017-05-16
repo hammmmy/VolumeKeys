@@ -1,3 +1,4 @@
+![Travis-ci](https://travis-ci.org/hammmmy/VolumeKeys.svg?branch=master)
 # VolumeKeys
 
 The volume keys of my phone stopped working so I had to come up with a simple project.
