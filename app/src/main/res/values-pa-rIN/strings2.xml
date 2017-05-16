@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>ਸਿਸਟਮ</string>
+    <string name='volume_call'>ਇਨ-ਕਾਲ ਵੌਲਿਊਮ</string>
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>Sistema</string>
+    <string name='volume_call'>Deien bolumena</string>
+</resources>

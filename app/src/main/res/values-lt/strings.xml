@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"Garsumas"</string>
+  <string name='media_volume_title'>"Medija"</string>
+  <string name='incoming_call_volume_title'>"Skambėjimo tonas"</string>
+  <string name='notification_volume_title'>"Pranešimas"</string>
+</resources>

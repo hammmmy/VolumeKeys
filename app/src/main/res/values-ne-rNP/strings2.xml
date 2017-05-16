@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>प्रणाली</string>
+    <string name='volume_call'>इन-कल भोल्युम</string>
+</resources>

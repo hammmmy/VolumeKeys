@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>පද්ධතිය</string>
+    <string name='volume_call'>ඇමතුම-තුළ ශබ්ද ත්‍රීවතාව</string>
+</resources>

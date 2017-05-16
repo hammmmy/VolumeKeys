@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>စနစ်</string>
+    <string name='volume_call'>ခေါ်ဆိုနေခြင်းအသံအတိုးအကျယ်</string>
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>Sustav</string>
+    <string name='volume_call'>Glasnoća poziva</string>
+</resources>

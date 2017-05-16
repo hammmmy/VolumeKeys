@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>સિસ્ટમ</string>
+    <string name='volume_call'>ઇન-કૉલ વૉલ્યૂમ</string>
+</resources>

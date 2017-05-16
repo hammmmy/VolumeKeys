@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>시스템</string>
+    <string name='volume_call'>통화 볼륨</string>
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>সিস্টেম</string>
+    <string name='volume_call'>কলে থাকা কালীন ভলিউম</string>
+</resources>

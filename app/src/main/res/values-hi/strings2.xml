@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>सिस्‍टम</string>
+    <string name='volume_call'>कॉल के दौरान वॉल्‍यूम</string>
+</resources>

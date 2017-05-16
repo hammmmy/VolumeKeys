@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"Hlasitost"</string>
+  <string name='media_volume_title'>"Média"</string>
+  <string name='incoming_call_volume_title'>"Vyzváněcí tón"</string>
+  <string name='notification_volume_title'>"Oznámení"</string>
+</resources>

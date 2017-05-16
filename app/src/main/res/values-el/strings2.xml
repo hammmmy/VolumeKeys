@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>Σύστημα</string>
+    <string name='volume_call'>Ένταση ήχου κλήσης</string>
+</resources>

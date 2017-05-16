@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"Volum"</string>
+  <string name='media_volume_title'>"Multimèdia"</string>
+  <string name='incoming_call_volume_title'>"So de trucada"</string>
+  <string name='notification_volume_title'>"Notificació"</string>
+</resources>

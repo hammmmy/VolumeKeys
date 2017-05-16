@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>Жүйе</string>
+    <string name='volume_call'>Келетін қоңырау дыбысының қаттылығы</string>
+</resources>

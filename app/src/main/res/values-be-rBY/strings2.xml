@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>Сістэма</string>
+    <string name='volume_call'>Гучнасць падчас размовы</string>
+</resources>

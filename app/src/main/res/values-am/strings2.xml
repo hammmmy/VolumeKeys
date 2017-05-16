@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>ስርዓት</string>
+    <string name='volume_call'>የጥሪ ላይ ድም ፅ መጨመሪያ/መቀነሻ</string>
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"ভলিউম"</string>
+  <string name='media_volume_title'>"মিডিয়া"</string>
+  <string name='incoming_call_volume_title'>"রিংটোন"</string>
+  <string name='notification_volume_title'>"বিজ্ঞপ্তি"</string>
+</resources>

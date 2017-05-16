@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"आवाज"</string>
+  <string name='media_volume_title'>"मीडिया"</string>
+  <string name='incoming_call_volume_title'>"रिंगटोन"</string>
+  <string name='notification_volume_title'>"सूचना"</string>
+</resources>

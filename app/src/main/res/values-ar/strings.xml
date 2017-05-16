@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"مستويات الصوت"</string>
+  <string name='media_volume_title'>"الوسائط"</string>
+  <string name='incoming_call_volume_title'>"نغمة الرنين"</string>
+  <string name='notification_volume_title'>"التنبيه"</string>
+</resources>

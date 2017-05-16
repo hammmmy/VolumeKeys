@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"ხმის კონტროლი"</string>
+  <string name='media_volume_title'>"მედია"</string>
+  <string name='incoming_call_volume_title'>"ზარი"</string>
+  <string name='notification_volume_title'>"შეტყობინებები"</string>
+</resources>

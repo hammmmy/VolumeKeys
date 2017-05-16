@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>அமைப்பு</string>
+    <string name='volume_call'>அழைப்பில் இருக்கும்போதான ஒலியளவு</string>
+</resources>

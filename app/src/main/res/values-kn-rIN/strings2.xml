@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>ಸಿಸ್ಟಂ</string>
+    <string name='volume_call'>ಒಳ-ಕರೆಯ ವಾಲ್ಯೂಮ್</string>
+</resources>

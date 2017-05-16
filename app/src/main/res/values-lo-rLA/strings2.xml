@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>ລະບົບ</string>
+    <string name='volume_call'>ລະດັບສຽງໃນການໂທ</string>
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>Hệ thống</string>
+    <string name='volume_call'>Âm lượng cuộc gọi</string>
+</resources>

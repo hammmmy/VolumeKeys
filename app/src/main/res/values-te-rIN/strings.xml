@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"వాల్యూమ్‌లు"</string>
+  <string name='media_volume_title'>"మీడియా"</string>
+  <string name='incoming_call_volume_title'>"రింగ్‌టోన్"</string>
+  <string name='notification_volume_title'>"నోటిఫికేషన్"</string>
+</resources>

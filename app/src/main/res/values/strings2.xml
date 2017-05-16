@@ -1,0 +1,7 @@
+<resources>
+    <string name='app_name'>Simple Volume Widget</string>
+    <string name='default_audio_route_category_name'>System</string>
+    <string name='volume_call'>In-call volume</string>
+    <string name='notification_access'>Please enable notification access for this application</string>
+    <string name='notification_access_do_not_disturb'>Cannot change volume in Do Not Disturb mode</string>
+</resources>

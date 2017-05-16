@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>Järjestelmä</string>
+    <string name='volume_call'>Puhelun äänenvoimakkuus</string>
+</resources>

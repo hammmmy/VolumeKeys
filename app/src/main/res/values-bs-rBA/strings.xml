@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"Jačine zvuka"</string>
+  <string name='media_volume_title'>"Mediji"</string>
+  <string name='incoming_call_volume_title'>"Melodija zvona"</string>
+  <string name='notification_volume_title'>"Obavještenje"</string>
+</resources>

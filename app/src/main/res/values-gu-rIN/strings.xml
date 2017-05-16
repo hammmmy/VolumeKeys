@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"વૉલ્યૂમ્સ"</string>
+  <string name='media_volume_title'>"મીડિયા"</string>
+  <string name='incoming_call_volume_title'>"રિંગટોન"</string>
+  <string name='notification_volume_title'>"સૂચના"</string>
+</resources>

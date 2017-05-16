@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>系统</string>
+    <string name='volume_call'>通话音量</string>
+</resources>

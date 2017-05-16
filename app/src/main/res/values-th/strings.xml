@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"ระดับเสียง"</string>
+  <string name='media_volume_title'>"สื่อ"</string>
+  <string name='incoming_call_volume_title'>"เสียงเรียกเข้า"</string>
+  <string name='notification_volume_title'>"การแจ้งเตือน"</string>
+</resources>

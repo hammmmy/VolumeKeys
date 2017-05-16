@@ -1,0 +1,6 @@
+<resources>
+  <string name='all_volume_title'>"ශබ්ද තීව්‍රතා"</string>
+  <string name='media_volume_title'>"මාධ්‍ය"</string>
+  <string name='incoming_call_volume_title'>"රිගින්ටෝනය"</string>
+  <string name='notification_volume_title'>"දැනුම් දීම"</string>
+</resources>

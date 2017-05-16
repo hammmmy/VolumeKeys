@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>Систем</string>
+    <string name='volume_call'>Ирсэн дуудлагын дууны хэмжээ</string>
+</resources>

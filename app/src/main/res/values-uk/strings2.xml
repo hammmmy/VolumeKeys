@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>Система</string>
+    <string name='volume_call'>Обсяг вхідних</string>
+</resources>

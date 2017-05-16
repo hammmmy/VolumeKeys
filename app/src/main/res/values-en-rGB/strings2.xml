@@ -1,0 +1,4 @@
+<resources>
+  <string name='default_audio_route_category_name'>System</string>
+    <string name='volume_call'>In-call volume</string>
+</resources>
