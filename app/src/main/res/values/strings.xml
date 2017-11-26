@@ -3,4 +3,8 @@
   <string name='media_volume_title'>Media</string>
   <string name='incoming_call_volume_title'>Ringtone</string>
   <string name='notification_volume_title'>Notification</string>
+    <string name="add_widget">Add Widget</string>
+  <string name="make_your_own_widget">Make your own widget</string>
+  <string name="background">Background</string>
+  <string name="icon_background">Icon Background</string>
 </resources>

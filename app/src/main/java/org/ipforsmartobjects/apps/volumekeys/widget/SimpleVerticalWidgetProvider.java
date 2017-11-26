@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import org.ipforsmartobjects.apps.volumekeys.R;
-import org.ipforsmartobjects.apps.volumekeys.VolumeControlActivity;
+import org.ipforsmartobjects.apps.volumekeys.volumes.VolumeControlActivity;
 
 public class SimpleVerticalWidgetProvider extends SimpleWidgetProvider {
 

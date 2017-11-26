@@ -1,0 +1,70 @@
+package org.ipforsmartobjects.apps.volumekeys.configuration;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import org.ipforsmartobjects.apps.volumekeys.databinding.ColorItemBinding;
+
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
+/**
+ * Created by Hamid on 4/17/2017.
+ */
+
+public class ColorPaletteAdapter extends RecyclerView.Adapter<ColorPaletteAdapter.ViewHolder> {
+
+    private List<Integer> mRgbColors;
+    private Context mContext;
+
+    public ColorPaletteAdapter(List<Integer> colors) {
+        setList(colors);
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
+
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        ColorItemBinding binding = ColorItemBinding.inflate(inflater, parent, false);
+        return new ViewHolder(binding);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        Integer color = mRgbColors.get(position);
+        viewHolder.mListItemRgbColorsBinding.colorSwatch.setBackgroundColor(color);
+    }
+
+    public void replaceData(List<Integer> colors) {
+        setList(colors);
+        notifyDataSetChanged();
+    }
+
+    private void setList(List<Integer> colors) {
+        mRgbColors = checkNotNull(colors);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mRgbColors.size();
+    }
+
+    private Integer getItem(int position) {
+        return mRgbColors.get(position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        final ColorItemBinding mListItemRgbColorsBinding;
+
+        public ViewHolder(ColorItemBinding binding) {
+            super(binding.getRoot());
+            mListItemRgbColorsBinding = binding;
+        }
+
+    }
+}

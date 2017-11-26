@@ -1,4 +1,4 @@
-package org.ipforsmartobjects.apps.volumekeys;
+package org.ipforsmartobjects.apps.volumekeys.volumes;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.support.v7.widget.AppCompatSeekBar;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import org.ipforsmartobjects.apps.volumekeys.R;
 import org.ipforsmartobjects.apps.volumekeys.databinding.VolumeControlBinding;
 
 public class VolumeControlActivity extends AppCompatActivity {

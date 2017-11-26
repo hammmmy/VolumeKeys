@@ -11,13 +11,13 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import org.ipforsmartobjects.apps.volumekeys.R;
-import org.ipforsmartobjects.apps.volumekeys.VolumeControlActivity;
+import org.ipforsmartobjects.apps.volumekeys.volumes.VolumeControlActivity;
 
 public class SimpleWidgetProvider extends AppWidgetProvider {
 
-    final String MyOnClick_volume_up = "volume_up";
-    final String MyOnClick_volume_down = "volume_down";
-    final String MyOnClick_mute = "mute";
+    final static String MyOnClick_volume_up = "volume_up";
+    final static String MyOnClick_volume_down = "volume_down";
+    final static String MyOnClick_mute = "mute";
 
     // yeah I know we need to avoid enums :)
     private enum VolumeEvent{
@@ -29,23 +29,27 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int widgetId : appWidgetIds) {
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-                    R.layout.simple_widget);
-
-            remoteViews.setOnClickPendingIntent(R.id.volume_up, getPendingSelfIntent(context, MyOnClick_volume_up));
-            remoteViews.setOnClickPendingIntent(R.id.volume_down, getPendingSelfIntent(context, MyOnClick_volume_down));
-            remoteViews.setOnClickPendingIntent(R.id.mute, getPendingSelfIntent(context, MyOnClick_mute));
-
-            Intent launchIntent = new Intent(context, VolumeControlActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, launchIntent, 0);
-            remoteViews.setOnClickPendingIntent(R.id.action_button_settings, pendingIntent);
-
-            appWidgetManager.updateAppWidget(widgetId, remoteViews);
+            updateAppWidget(context, appWidgetManager, widgetId);
         }
     }
 
-    PendingIntent getPendingSelfIntent(Context context, String action) {
-        Intent intent = new Intent(context, getClass());
+    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
+                R.layout.simple_widget);
+
+        remoteViews.setOnClickPendingIntent(R.id.volume_up, getPendingSelfIntent(context, MyOnClick_volume_up));
+        remoteViews.setOnClickPendingIntent(R.id.volume_down, getPendingSelfIntent(context, MyOnClick_volume_down));
+        remoteViews.setOnClickPendingIntent(R.id.mute, getPendingSelfIntent(context, MyOnClick_mute));
+
+        Intent launchIntent = new Intent(context, VolumeControlActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, launchIntent, 0);
+        remoteViews.setOnClickPendingIntent(R.id.action_button_settings, pendingIntent);
+
+        appWidgetManager.updateAppWidget(widgetId, remoteViews);
+    }
+
+    static PendingIntent getPendingSelfIntent(Context context, String action) {
+        Intent intent = new Intent(context, SimpleWidgetProvider.class);
         intent.setAction(action);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }

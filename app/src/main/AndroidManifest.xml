@@ -35,7 +35,7 @@
         </receiver>
 
         <activity
-            android:name=".VolumeControlActivity"
+            android:name=".volumes.VolumeControlActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,6 +43,12 @@
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".data.local.WidgetColorsProvider"
+            android:authorities="org.ipforsmartobjects.apps.volumekeys.data"
+            android:exported="false" />
+
     </application>
 
 </manifest>
