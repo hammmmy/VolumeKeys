@@ -29,7 +29,7 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
     SimpleWidgetConfigPresenter mActionsListener;
 
     SimpleWidgetConfigureBinding mBinding;
-    private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+    protected int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     ArrayList<Integer> mBackgroundColors = new ArrayList<>();
     ArrayList<Integer> mIconBackgroundColors = new ArrayList<>();
     HashMap<Integer, Boolean> mIconColorMap = new HashMap<>();
@@ -42,7 +42,7 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
     private static final String IS_BLACK_PREF_PREFIX_KEY = "is_black_colors_appwidget_";
 
 
-    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+    protected final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             // TODO: 27/11/2017 get colors of the widget and save them
             mActionsListener.saveWidgetDetails(mAppWidgetId);
@@ -92,6 +92,11 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
 
         mBinding = DataBindingUtil.setContentView(SimpleWidgetConfigActivity.this,
                 R.layout.simple_widget_configure);
+
+        initConfigActivity();
+    }
+
+    protected void initConfigActivity() {
         initBackgroundColors();
 
         mBinding.addButton.setOnClickListener(mOnClickListener);
@@ -114,7 +119,10 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
             return;
         }
 
-        mActionsListener.loadDefaultColors();
+        int primaryColor = ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.colorPrimary);
+        int primaryDarkColor = ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.colorPrimaryDark);
+
+        mActionsListener.loadDefaultColors(primaryColor, primaryDarkColor);
         RecyclerView backgroundRecyclerView = mBinding.backgroundColorRecyclerView;
         backgroundRecyclerView.setHasFixedSize(true);
         ColorPaletteAdapter adapter = new ColorPaletteAdapter(mBackgroundColors, new ColorItemListener(){

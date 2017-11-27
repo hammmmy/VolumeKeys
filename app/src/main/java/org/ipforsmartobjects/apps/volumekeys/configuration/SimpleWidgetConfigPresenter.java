@@ -44,8 +44,8 @@ public class SimpleWidgetConfigPresenter implements SimpleWidgetConfigContract.P
     }
 
     @Override
-    public void loadDefaultColors() {
-        setDefaultWidgetColors();
+    public void loadDefaultColors(int primaryColor, int primaryDarkColor) {
+        setDefaultWidgetColors(primaryColor, primaryDarkColor);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class SimpleWidgetConfigPresenter implements SimpleWidgetConfigContract.P
         }
     }
 
-    public void setDefaultWidgetColors() {
+    public void setDefaultWidgetColors(final int primaryColor, final int primaryDarkColor) {
 
         mLoaderManager.initLoader(LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<WidgetColors>>() {
             @Override
@@ -102,6 +102,13 @@ public class SimpleWidgetConfigPresenter implements SimpleWidgetConfigContract.P
                     mSelectedIconColor = mDefaultBackgroundIconColor = color.getIconBackgroundColor();
                     mView.updateBackgroundColor(mSelectedBackgroundColor);
                     mView.updateIconBackgroundColor(mSelectedIconColor);
+                } else {
+
+                    mSelectedBackgroundColor = mDefaultBackgroundColor = primaryColor;
+                    mSelectedIconColor = mDefaultBackgroundIconColor = primaryDarkColor;
+                    mView.updateBackgroundColor(mSelectedBackgroundColor);
+                    mView.updateIconBackgroundColor(mSelectedIconColor);
+
                 }
             }
 

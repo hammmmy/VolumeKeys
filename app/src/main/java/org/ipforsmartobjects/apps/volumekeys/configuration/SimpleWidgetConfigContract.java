@@ -17,7 +17,7 @@ public interface SimpleWidgetConfigContract {
     }
 
     interface Presenter {
-        void loadDefaultColors();
+        void loadDefaultColors(int primaryColor, int primaryDarkColor);
         void onWidgetBackgroundColorSelected(Integer rgbColor);
         void onIconBackgroundColorSelected(Integer rgbColor);
         void saveWidgetDetails(int widgetId);
