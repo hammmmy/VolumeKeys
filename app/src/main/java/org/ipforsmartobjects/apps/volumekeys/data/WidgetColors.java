@@ -18,8 +18,8 @@ public class WidgetColors implements Parcelable {
         public WidgetColors createFromParcel(Parcel in) {
             WidgetColors instance = new WidgetColors();
             instance.id = ((Long) in.readValue((Long.class.getClassLoader())));
-            instance.backgroundColor = ((String) in.readValue((String.class.getClassLoader())));
-            instance.iconBackgroundColor = ((String) in.readValue((String.class.getClassLoader())));
+            instance.backgroundColor = ((int) in.readValue((String.class.getClassLoader())));
+            instance.iconBackgroundColor = ((int) in.readValue((String.class.getClassLoader())));
             instance.isBlack = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
             return instance;
         }
@@ -30,8 +30,8 @@ public class WidgetColors implements Parcelable {
 
     };
     private long id;
-    private String backgroundColor;
-    private String iconBackgroundColor;
+    private int backgroundColor;
+    private int iconBackgroundColor;
     private Boolean isBlack;
 
 
@@ -43,19 +43,19 @@ public class WidgetColors implements Parcelable {
         this.id = id;
     }
 
-    public String getBackgroundColor() {
+    public int getBackgroundColor() {
         return backgroundColor;
     }
 
-    public void setBackgroundColor(String backgroundColor) {
+    public void setBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
-    public String getIconBackgroundColor() {
+    public int getIconBackgroundColor() {
         return iconBackgroundColor;
     }
 
-    public void setIconBackgroundColor(String iconBackgroundColor) {
+    public void setIconBackgroundColor(int iconBackgroundColor) {
         this.iconBackgroundColor = iconBackgroundColor;
     }
 

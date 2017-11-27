@@ -15,12 +15,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.ipforsmartobjects.apps.volumekeys.R;
+import org.ipforsmartobjects.apps.volumekeys.data.WidgetColorLoader;
 import org.ipforsmartobjects.apps.volumekeys.data.WidgetColors;
 import org.ipforsmartobjects.apps.volumekeys.databinding.SimpleWidgetConfigureBinding;
 import org.ipforsmartobjects.apps.volumekeys.widget.SimpleWidgetProvider;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SimpleWidgetConfigActivity extends AppCompatActivity implements SimpleWidgetConfigContract.View {
 
@@ -30,44 +32,53 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     ArrayList<Integer> mBackgroundColors = new ArrayList<>();
     ArrayList<Integer> mIconBackgroundColors = new ArrayList<>();
+    HashMap<Integer, Boolean> mIconColorMap = new HashMap<>();
 
 
     private static final String PREFS_NAME = "org.ipforsmartobjects.apps.volumekeys.configuration.SimpleWidgetConfigActivity";
     private static final String PREF_PREFIX_KEY = "appwidget_";
-    private static final String COLORS_PREF_PREFIX_KEY = "colors_appwidget_";
+    private static final String BG_COLORS_PREF_PREFIX_KEY = "bg_colors_appwidget_";
+    private static final String ICON_BG_COLORS_PREF_PREFIX_KEY = "icon_bg_colors_appwidget_";
+    private static final String IS_BLACK_PREF_PREFIX_KEY = "is_black_colors_appwidget_";
+
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             // TODO: 27/11/2017 get colors of the widget and save them
-            mActionsListener.saveWidgetDetails();
+            mActionsListener.saveWidgetDetails(mAppWidgetId);
         }
     };
 
 
     // Write the prefix to the SharedPreferences object for this widget
-    private static void saveColorPrefs(Context context, int appWidgetId, String text) {
+    private static void saveColorPrefs(Context context, int appWidgetId, int bgColor, int iconBgColor, boolean isBlack) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-        prefs.putString(COLORS_PREF_PREFIX_KEY + appWidgetId, text);
+        prefs.putInt(BG_COLORS_PREF_PREFIX_KEY + appWidgetId, bgColor);
+        prefs.putInt(ICON_BG_COLORS_PREF_PREFIX_KEY + appWidgetId, iconBgColor);
+        prefs.putBoolean(IS_BLACK_PREF_PREFIX_KEY + appWidgetId, isBlack);
+
         prefs.apply();
     }
-
-    private static ArrayList<Integer> fromJson(String jsonString) {
-        Type type = new TypeToken<ArrayList<Integer>>(){}.getType();
-        return new Gson().fromJson(jsonString, type);
-    }
-    static ArrayList<Integer> loadColorPref(Context context, int appWidgetId) {
+    static Integer loadBackgrooundColorPref(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        String colorsListJson = prefs.getString(COLORS_PREF_PREFIX_KEY + appWidgetId, null);
-        if (colorsListJson != null) {
-            return fromJson(colorsListJson);
-        } else {
-            return new ArrayList<>();
-        }
+        return prefs.getInt(BG_COLORS_PREF_PREFIX_KEY + appWidgetId, -1);
+    }
+
+    static Integer loadIconBackgrooundColorPref(Context context, int appWidgetId) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+        return prefs.getInt(ICON_BG_COLORS_PREF_PREFIX_KEY + appWidgetId, -1);
+    }
+
+    static boolean loadIsBlackColorPref(Context context, int appWidgetId) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+        return prefs.getBoolean(IS_BLACK_PREF_PREFIX_KEY + appWidgetId, false);
     }
 
     static void deleteColorPref(Context context, int appWidgetId) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-        prefs.remove(COLORS_PREF_PREFIX_KEY + appWidgetId);
+        prefs.remove(BG_COLORS_PREF_PREFIX_KEY + appWidgetId);
+        prefs.remove(ICON_BG_COLORS_PREF_PREFIX_KEY + appWidgetId);
+        prefs.remove(IS_BLACK_PREF_PREFIX_KEY + appWidgetId);
         prefs.apply();
     }
 
@@ -85,7 +96,9 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
 
         mBinding.addButton.setOnClickListener(mOnClickListener);
 
-        mActionsListener = new SimpleWidgetConfigPresenter(this, getContentResolver());
+        mActionsListener = new SimpleWidgetConfigPresenter(this, getContentResolver(),
+                getSupportLoaderManager(),
+                new WidgetColorLoader(this));
 
         // Find the widget id from the intent.
         Intent intent = getIntent();
@@ -101,15 +114,27 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
             return;
         }
 
-        mActionsListener.loadDefaultColors(mAppWidgetId);
+        mActionsListener.loadDefaultColors();
         RecyclerView backgroundRecyclerView = mBinding.backgroundColorRecyclerView;
         backgroundRecyclerView.setHasFixedSize(true);
-        ColorPaletteAdapter adapter = new ColorPaletteAdapter(mBackgroundColors);
+        ColorPaletteAdapter adapter = new ColorPaletteAdapter(mBackgroundColors, new ColorItemListener(){
+
+            @Override
+            public void onColorClick(int color) {
+                mActionsListener.onWidgetBackgroundColorSelected(color);
+            }
+        });
         backgroundRecyclerView.setAdapter(adapter);
 
         RecyclerView iconBackgroundRecyclerView = mBinding.iconBackgroundColorRecyclerView;
         iconBackgroundRecyclerView.setHasFixedSize(true);
-        ColorPaletteAdapter iconAdapter = new ColorPaletteAdapter(mIconBackgroundColors);
+        ColorPaletteAdapter iconAdapter = new ColorPaletteAdapter(mIconBackgroundColors, new ColorItemListener(){
+
+            @Override
+            public void onColorClick(int color) {
+                mActionsListener.onIconBackgroundColorSelected(color);
+            }
+        });
         iconBackgroundRecyclerView.setAdapter(iconAdapter);
     }
 
@@ -119,24 +144,28 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
     }
 
     @Override
-    public void updateIconBackgroundColor(Integer iconBackgroundColor, boolean isBlackIcon) {
+    public void updateIconBackgroundColor(Integer iconBackgroundColor) {
         mBinding.widgetLayout.mute.setBackgroundColor(iconBackgroundColor);
-        mBinding.widgetLayout.mute.setImageResource(isBlackIcon ? R.drawable.ic_volume_off_black : R.drawable.ic_volume_off_white);
+        mBinding.widgetLayout.mute.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_volume_off_black : R.drawable.ic_volume_off_white);
 
         mBinding.widgetLayout.volumeUp.setBackgroundColor(iconBackgroundColor);
-        mBinding.widgetLayout.volumeUp.setImageResource(isBlackIcon ? R.drawable.ic_volume_off_black : R.drawable.ic_volume_off_white);
+        mBinding.widgetLayout.volumeUp.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_add_circle_outline_black : R.drawable.ic_add_circle_outline_white);
 
         mBinding.widgetLayout.volumeDown.setBackgroundColor(iconBackgroundColor);
-        mBinding.widgetLayout.volumeDown.setImageResource(isBlackIcon ? R.drawable.ic_volume_off_black : R.drawable.ic_volume_off_white);
+        mBinding.widgetLayout.volumeDown.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_remove_circle_outline_black : R.drawable.ic_remove_circle_outline_white);
+
+        mBinding.widgetLayout.actionButtonSettings.setBackgroundColor(iconBackgroundColor);
+        mBinding.widgetLayout.actionButtonSettings.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_more_black : R.drawable.ic_more_white);
+
     }
 
     @Override
-    public void saveWidgetDetails(WidgetColors colors) {
+    public void saveWidgetDetails(int bgColor, int iconBgColor) {
 
         final Context context = SimpleWidgetConfigActivity.this;
 
         // When the button is clicked, store the string locally
-        mActionsListener.saveWidgetDetails();
+        saveColorPrefs(context, mAppWidgetId, bgColor, iconBgColor, mIconColorMap.get(iconBgColor));
 
         // It is the responsibility of the configuration activity to update the app widget
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -193,5 +222,33 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
         mIconBackgroundColors.add(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.brown_accent));
         mIconBackgroundColors.add(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.grey_accent));
         mIconBackgroundColors.add(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.blue_grey_accent));
+
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, android.R.color.transparent), true);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.red_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.pink_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.purple_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.deep_purple_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.indigo_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.blue_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.light_blue_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.cyan_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.teal_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.green_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.light_green_accent), true);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.lime_accent), true);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.yellow_accent), true);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.amber_accent), true);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.orange_accent), true);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.deep_orange_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.brown_accent), false);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.grey_accent), true);
+        mIconColorMap.put(ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.blue_grey_accent), false);
+
     }
+
+
+    interface ColorItemListener {
+        void onColorClick(int color);
+    }
+
 }

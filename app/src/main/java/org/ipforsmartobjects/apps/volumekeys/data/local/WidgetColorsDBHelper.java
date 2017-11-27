@@ -18,8 +18,8 @@ public class WidgetColorsDBHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_TABLE_COLORS = "CREATE TABLE " +
             WidgetColorsPersistenceContract.TABLE_COLORS + " (" +
             WidgetColorsPersistenceContract.TableWidgetColors._ID + TEXT_TYPE + PRIMARY_KEY + COMMA_SEP +
-            WidgetColorsPersistenceContract.TableWidgetColors.COL_BACKGROUND_COLOR + TEXT_TYPE + COMMA_SEP +
-            WidgetColorsPersistenceContract.TableWidgetColors.COL_ICON_BACKGROUND_COLOR + TEXT_TYPE + COMMA_SEP +
+            WidgetColorsPersistenceContract.TableWidgetColors.COL_BACKGROUND_COLOR + INTEGER_TYPE + COMMA_SEP +
+            WidgetColorsPersistenceContract.TableWidgetColors.COL_ICON_BACKGROUND_COLOR + INTEGER_TYPE + COMMA_SEP +
             WidgetColorsPersistenceContract.TableWidgetColors.COL_IS_BLACK + INTEGER_TYPE +
             " )";
 

@@ -12,16 +12,16 @@ public interface SimpleWidgetConfigContract {
 
     interface View {
         void updateBackgroundColor(Integer backgroundColor);
-        void updateIconBackgroundColor(Integer iconBackgroundColor, boolean isBlackIcon);
-        void saveWidgetDetails(WidgetColors colors);
+        void updateIconBackgroundColor(Integer iconBackgroundColor);
+        void saveWidgetDetails(int bgColor, int iconBgColor);
     }
 
     interface Presenter {
-        WidgetColors loadDefaultColors(long widgetId);
+        void loadDefaultColors();
         void onWidgetBackgroundColorSelected(Integer rgbColor);
         void onIconBackgroundColorSelected(Integer rgbColor);
-        void saveWidgetDetails();
-        void onWidgetDeleted();
+        void saveWidgetDetails(int widgetId);
+        void onWidgetDeleted(int widgetId);
     }
 
 }

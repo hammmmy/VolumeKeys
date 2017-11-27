@@ -3,6 +3,7 @@ package org.ipforsmartobjects.apps.volumekeys.configuration;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import org.ipforsmartobjects.apps.volumekeys.databinding.ColorItemBinding;
@@ -19,9 +20,11 @@ public class ColorPaletteAdapter extends RecyclerView.Adapter<ColorPaletteAdapte
 
     private List<Integer> mRgbColors;
     private Context mContext;
+    SimpleWidgetConfigActivity.ColorItemListener mItemListener;
 
-    public ColorPaletteAdapter(List<Integer> colors) {
+    public ColorPaletteAdapter(List<Integer> colors, SimpleWidgetConfigActivity.ColorItemListener listener) {
         setList(colors);
+        mItemListener = listener;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class ColorPaletteAdapter extends RecyclerView.Adapter<ColorPaletteAdapte
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         ColorItemBinding binding = ColorItemBinding.inflate(inflater, parent, false);
-        return new ViewHolder(binding);
+        return new ViewHolder(binding, mItemListener);
     }
 
     @Override
@@ -57,14 +60,23 @@ public class ColorPaletteAdapter extends RecyclerView.Adapter<ColorPaletteAdapte
         return mRgbColors.get(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         final ColorItemBinding mListItemRgbColorsBinding;
+        SimpleWidgetConfigActivity.ColorItemListener mItemListener;
 
-        public ViewHolder(ColorItemBinding binding) {
+        public ViewHolder(ColorItemBinding binding, SimpleWidgetConfigActivity.ColorItemListener itemListener) {
             super(binding.getRoot());
             mListItemRgbColorsBinding = binding;
+            mItemListener = itemListener;
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Integer color = getItem(position);
+            mItemListener.onColorClick(color);
+        }
     }
 }

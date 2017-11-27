@@ -37,8 +37,8 @@ public class WidgetColorLoader extends AsyncTaskLoader<List<WidgetColors>> {
             if (c != null && c.getCount() > 0) {
                 while (c.moveToNext()) {
                     Long id = Long.parseLong(c.getString(c.getColumnIndexOrThrow(WidgetColorsPersistenceContract.TableWidgetColors.COL_ID)));
-                    String bgColor = c.getString(c.getColumnIndexOrThrow(WidgetColorsPersistenceContract.TableWidgetColors.COL_BACKGROUND_COLOR));
-                    String iconBgColor = c.getString(c.getColumnIndexOrThrow(WidgetColorsPersistenceContract.TableWidgetColors.COL_ICON_BACKGROUND_COLOR));
+                    int bgColor = c.getInt(c.getColumnIndexOrThrow(WidgetColorsPersistenceContract.TableWidgetColors.COL_BACKGROUND_COLOR));
+                    int iconBgColor = c.getInt(c.getColumnIndexOrThrow(WidgetColorsPersistenceContract.TableWidgetColors.COL_ICON_BACKGROUND_COLOR));
                     boolean isBlack = c.getInt(c.getColumnIndexOrThrow(WidgetColorsPersistenceContract.TableWidgetColors.COL_IS_BLACK)) == 1;
 
                     WidgetColors widgetColors = new WidgetColors();

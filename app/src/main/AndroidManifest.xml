@@ -49,6 +49,11 @@
             android:authorities="org.ipforsmartobjects.apps.volumekeys.data"
             android:exported="false" />
 
+        <activity android:name=".configuration.SimpleWidgetConfigActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -6,7 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/colorPrimaryDark"
         android:padding="16dp">
 
         <TextView
@@ -37,7 +36,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/background_color_recycler_view"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layoutManager="GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -55,7 +54,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/icon_background_color_recycler_view"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layoutManager="GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -66,7 +65,6 @@
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             android:layout_margin="8dp"
             android:text="@string/add_widget" />
