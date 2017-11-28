@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
@@ -44,8 +45,8 @@ public class SimpleWidgetConfigPresenter implements SimpleWidgetConfigContract.P
     }
 
     @Override
-    public void loadDefaultColors(int primaryColor, int primaryDarkColor) {
-        setDefaultWidgetColors(primaryColor, primaryDarkColor);
+    public void loadDefaultColors(int primaryColor, int colorAccent) {
+        setDefaultWidgetColors(primaryColor, colorAccent);
     }
 
     @Override
@@ -79,13 +80,22 @@ public class SimpleWidgetConfigPresenter implements SimpleWidgetConfigContract.P
             contentValues.put(WidgetColorsPersistenceContract.TableWidgetColors.COL_ID, Long.toString(widgetId));
             contentValues.put(WidgetColorsPersistenceContract.TableWidgetColors.COL_BACKGROUND_COLOR, mSelectedBackgroundColor);
             contentValues.put(WidgetColorsPersistenceContract.TableWidgetColors.COL_ICON_BACKGROUND_COLOR, mSelectedIconColor);
-            boolean success = mContentResolver.insert(WidgetColorsPersistenceContract.CONTENT_URI, contentValues) != null;
+
+            try {
+                boolean success = mContentResolver.insert(WidgetColorsPersistenceContract.CONTENT_URI, contentValues) != null;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else {
-            boolean success = mContentResolver.delete(ContentUris.withAppendedId(WidgetColorsPersistenceContract.CONTENT_URI, widgetId), null, null) > 0;
+            try {
+                boolean success = mContentResolver.delete(ContentUris.withAppendedId(WidgetColorsPersistenceContract.CONTENT_URI, widgetId), null, null) > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void setDefaultWidgetColors(final int primaryColor, final int primaryDarkColor) {
+    public void setDefaultWidgetColors(final int primaryColor, final int colorAccent) {
 
         mLoaderManager.initLoader(LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<WidgetColors>>() {
             @Override
@@ -105,7 +115,7 @@ public class SimpleWidgetConfigPresenter implements SimpleWidgetConfigContract.P
                 } else {
 
                     mSelectedBackgroundColor = mDefaultBackgroundColor = primaryColor;
-                    mSelectedIconColor = mDefaultBackgroundIconColor = primaryDarkColor;
+                    mSelectedIconColor = mDefaultBackgroundIconColor = colorAccent;
                     mView.updateBackgroundColor(mSelectedBackgroundColor);
                     mView.updateIconBackgroundColor(mSelectedIconColor);
 

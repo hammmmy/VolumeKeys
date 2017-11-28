@@ -11,6 +11,7 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import org.ipforsmartobjects.apps.volumekeys.R;
+import org.ipforsmartobjects.apps.volumekeys.configuration.SimpleWidgetConfigActivity;
 import org.ipforsmartobjects.apps.volumekeys.volumes.VolumeControlActivity;
 
 public class SimpleWidgetProvider extends AppWidgetProvider {
@@ -36,6 +37,27 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                 R.layout.simple_widget);
+
+        initWidget(context, appWidgetManager, widgetId, remoteViews);
+    }
+
+    protected static void initWidget(Context context, AppWidgetManager appWidgetManager, int widgetId, RemoteViews remoteViews) {
+        int bgColor = SimpleWidgetConfigActivity.loadBackgrooundColorPref(context, widgetId);
+        int iconBackgroundColor = SimpleWidgetConfigActivity.loadIconBackgrooundColorPref(context, widgetId);
+        boolean isBlack = SimpleWidgetConfigActivity.loadIsBlackColorPref(context, widgetId);
+
+        remoteViews.setInt(R.id.layout_container, "setBackgroundColor", bgColor);
+        remoteViews.setInt(R.id.mute, "setBackgroundColor", iconBackgroundColor);
+        remoteViews.setInt(R.id.mute, "setImageResource", isBlack ? R.drawable.ic_volume_off_black : R.drawable.ic_volume_off_white);
+
+        remoteViews.setInt(R.id.volume_down, "setBackgroundColor", iconBackgroundColor);
+        remoteViews.setInt(R.id.volume_down, "setImageResource", isBlack ? R.drawable.ic_remove_circle_outline_black : R.drawable.ic_remove_circle_outline_white);
+
+        remoteViews.setInt(R.id.volume_up, "setBackgroundColor", iconBackgroundColor);
+        remoteViews.setInt(R.id.volume_up, "setImageResource", isBlack ? R.drawable.ic_add_circle_outline_black : R.drawable.ic_add_circle_outline_white);
+
+        remoteViews.setInt(R.id.action_button_settings, "setBackgroundColor", iconBackgroundColor);
+        remoteViews.setInt(R.id.action_button_settings, "setImageResource", isBlack ? R.drawable.ic_more_black : R.drawable.ic_more_white);
 
         remoteViews.setOnClickPendingIntent(R.id.volume_up, getPendingSelfIntent(context, MyOnClick_volume_up));
         remoteViews.setOnClickPendingIntent(R.id.volume_down, getPendingSelfIntent(context, MyOnClick_volume_down));
@@ -96,5 +118,11 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             adjustBar(context, audioManager, stream, VolumeEvent.MUTE);
         }
     }
-
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        // When the user deletes the widget, delete the preference associated with it.
+        for (int appWidgetId : appWidgetIds) {
+            SimpleWidgetConfigActivity.deleteColorPref(context, appWidgetId);
+        }
+    }
 }

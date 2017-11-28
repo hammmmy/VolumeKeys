@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     android:gravity="center"
+    android:id="@+id/layout_container"
     android:orientation="vertical"
     android:padding="@dimen/widget_margin">
 

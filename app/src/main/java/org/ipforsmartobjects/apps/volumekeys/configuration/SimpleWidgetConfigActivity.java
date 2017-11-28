@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,7 +30,7 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
 
     SimpleWidgetConfigPresenter mActionsListener;
 
-    SimpleWidgetConfigureBinding mBinding;
+//    SimpleWidgetConfigureBinding mBinding;
     protected int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     ArrayList<Integer> mBackgroundColors = new ArrayList<>();
     ArrayList<Integer> mIconBackgroundColors = new ArrayList<>();
@@ -44,10 +46,17 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
 
     protected final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
-            // TODO: 27/11/2017 get colors of the widget and save them
             mActionsListener.saveWidgetDetails(mAppWidgetId);
         }
     };
+    protected Button mAddButton;
+    protected RecyclerView mBackgroundRecyclerView;
+    protected RecyclerView mIconBackgroundRecyclerView;
+    protected View mLayoutContainer;
+    protected ImageView mMuteButton;
+    protected ImageView mVolumeUpButton;
+    protected ImageView mVolumeDownButton;
+    protected ImageView mMoreButton;
 
 
     // Write the prefix to the SharedPreferences object for this widget
@@ -59,22 +68,22 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
 
         prefs.apply();
     }
-    static Integer loadBackgrooundColorPref(Context context, int appWidgetId) {
+    public static Integer loadBackgrooundColorPref(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
         return prefs.getInt(BG_COLORS_PREF_PREFIX_KEY + appWidgetId, -1);
     }
 
-    static Integer loadIconBackgrooundColorPref(Context context, int appWidgetId) {
+    public static Integer loadIconBackgrooundColorPref(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
         return prefs.getInt(ICON_BG_COLORS_PREF_PREFIX_KEY + appWidgetId, -1);
     }
 
-    static boolean loadIsBlackColorPref(Context context, int appWidgetId) {
+    public static boolean loadIsBlackColorPref(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
         return prefs.getBoolean(IS_BLACK_PREF_PREFIX_KEY + appWidgetId, false);
     }
 
-    static void deleteColorPref(Context context, int appWidgetId) {
+    public static void deleteColorPref(Context context, int appWidgetId) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
         prefs.remove(BG_COLORS_PREF_PREFIX_KEY + appWidgetId);
         prefs.remove(ICON_BG_COLORS_PREF_PREFIX_KEY + appWidgetId);
@@ -86,20 +95,29 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
-        // Set the result to CANCELED.  This will cause the widget host to cancel
-        // out of the widget placement if the user presses the back button.
-        setResult(RESULT_CANCELED);
-
-        mBinding = DataBindingUtil.setContentView(SimpleWidgetConfigActivity.this,
+        SimpleWidgetConfigureBinding mBinding = DataBindingUtil.setContentView(SimpleWidgetConfigActivity.this,
                 R.layout.simple_widget_configure);
+
+        mAddButton = mBinding.addButton;
+        mBackgroundRecyclerView = mBinding.backgroundColorRecyclerView;
+        mIconBackgroundRecyclerView = mBinding.iconBackgroundColorRecyclerView;
+        mLayoutContainer = mBinding.widgetLayout.layoutContainer;
+        mMuteButton = mBinding.widgetLayout.mute;
+        mVolumeUpButton = mBinding.widgetLayout.volumeUp;
+        mVolumeDownButton = mBinding.widgetLayout.volumeDown;
+        mMoreButton = mBinding.widgetLayout.actionButtonSettings;
 
         initConfigActivity();
     }
 
     protected void initConfigActivity() {
+        // Set the result to CANCELED.  This will cause the widget host to cancel
+        // out of the widget placement if the user presses the back button.
+        setResult(RESULT_CANCELED);
+
         initBackgroundColors();
 
-        mBinding.addButton.setOnClickListener(mOnClickListener);
+        mAddButton.setOnClickListener(mOnClickListener);
 
         mActionsListener = new SimpleWidgetConfigPresenter(this, getContentResolver(),
                 getSupportLoaderManager(),
@@ -120,11 +138,11 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
         }
 
         int primaryColor = ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.colorPrimary);
-        int primaryDarkColor = ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.colorPrimaryDark);
+        int colorAccent = ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.colorAccent);
 
-        mActionsListener.loadDefaultColors(primaryColor, primaryDarkColor);
-        RecyclerView backgroundRecyclerView = mBinding.backgroundColorRecyclerView;
-        backgroundRecyclerView.setHasFixedSize(true);
+        mActionsListener.loadDefaultColors(primaryColor, colorAccent);
+
+        mBackgroundRecyclerView.setHasFixedSize(true);
         ColorPaletteAdapter adapter = new ColorPaletteAdapter(mBackgroundColors, new ColorItemListener(){
 
             @Override
@@ -132,10 +150,9 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
                 mActionsListener.onWidgetBackgroundColorSelected(color);
             }
         });
-        backgroundRecyclerView.setAdapter(adapter);
+        mBackgroundRecyclerView.setAdapter(adapter);
 
-        RecyclerView iconBackgroundRecyclerView = mBinding.iconBackgroundColorRecyclerView;
-        iconBackgroundRecyclerView.setHasFixedSize(true);
+        mIconBackgroundRecyclerView.setHasFixedSize(true);
         ColorPaletteAdapter iconAdapter = new ColorPaletteAdapter(mIconBackgroundColors, new ColorItemListener(){
 
             @Override
@@ -143,27 +160,27 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
                 mActionsListener.onIconBackgroundColorSelected(color);
             }
         });
-        iconBackgroundRecyclerView.setAdapter(iconAdapter);
+        mIconBackgroundRecyclerView.setAdapter(iconAdapter);
     }
 
     @Override
     public void updateBackgroundColor(Integer backgroundColor) {
-        mBinding.widgetLayout.layoutContainer.setBackgroundColor(backgroundColor);
+        mLayoutContainer.setBackgroundColor(backgroundColor);
     }
 
     @Override
     public void updateIconBackgroundColor(Integer iconBackgroundColor) {
-        mBinding.widgetLayout.mute.setBackgroundColor(iconBackgroundColor);
-        mBinding.widgetLayout.mute.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_volume_off_black : R.drawable.ic_volume_off_white);
+        mMuteButton.setBackgroundColor(iconBackgroundColor);
+        mMuteButton.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_volume_off_black : R.drawable.ic_volume_off_white);
 
-        mBinding.widgetLayout.volumeUp.setBackgroundColor(iconBackgroundColor);
-        mBinding.widgetLayout.volumeUp.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_add_circle_outline_black : R.drawable.ic_add_circle_outline_white);
+        mVolumeUpButton.setBackgroundColor(iconBackgroundColor);
+        mVolumeUpButton.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_add_circle_outline_black : R.drawable.ic_add_circle_outline_white);
 
-        mBinding.widgetLayout.volumeDown.setBackgroundColor(iconBackgroundColor);
-        mBinding.widgetLayout.volumeDown.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_remove_circle_outline_black : R.drawable.ic_remove_circle_outline_white);
+        mVolumeDownButton.setBackgroundColor(iconBackgroundColor);
+        mVolumeDownButton.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_remove_circle_outline_black : R.drawable.ic_remove_circle_outline_white);
 
-        mBinding.widgetLayout.actionButtonSettings.setBackgroundColor(iconBackgroundColor);
-        mBinding.widgetLayout.actionButtonSettings.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_more_black : R.drawable.ic_more_white);
+        mMoreButton.setBackgroundColor(iconBackgroundColor);
+        mMoreButton.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_more_black : R.drawable.ic_more_white);
 
     }
 
@@ -174,16 +191,20 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
 
         // When the button is clicked, store the string locally
         saveColorPrefs(context, mAppWidgetId, bgColor, iconBgColor, mIconColorMap.get(iconBgColor));
+        updateAppWidget(context);
 
-        // It is the responsibility of the configuration activity to update the app widget
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        SimpleWidgetProvider.updateAppWidget(context, appWidgetManager, mAppWidgetId);
 
         // Make sure we pass back the original appWidgetId
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
         setResult(RESULT_OK, resultValue);
         finish();
+    }
+
+    protected void updateAppWidget(Context context) {
+        // It is the responsibility of the configuration activity to update the app widget
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        SimpleWidgetProvider.updateAppWidget(context, appWidgetManager, mAppWidgetId);
     }
 
 
