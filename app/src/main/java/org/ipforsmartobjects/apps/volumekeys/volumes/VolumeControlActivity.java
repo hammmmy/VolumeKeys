@@ -31,19 +31,7 @@ public class VolumeControlActivity extends AppCompatActivity {
         setUI(binding.notification, AudioManager.STREAM_NOTIFICATION);
         setUI(binding.voice, AudioManager.STREAM_VOICE_CALL);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                && !notificationManager.isNotificationPolicyAccessGranted()) {
-
-            Toast.makeText(VolumeControlActivity.this, R.string.notification_access, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(
-                    android.provider.Settings
-                            .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-
-            startActivity(intent);
-        }
     }
 
     private void setUI(final AppCompatSeekBar seekBar, final int stream) {
@@ -57,7 +45,21 @@ public class VolumeControlActivity extends AppCompatActivity {
                 try {
                     mAudioManager.setStreamVolume(stream, progress, AudioManager.FLAG_PLAY_SOUND);
                 } catch (SecurityException e) {
-                    Toast.makeText(VolumeControlActivity.this, R.string.notification_access_do_not_disturb, Toast.LENGTH_SHORT).show();
+                    NotificationManager notificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                            && !notificationManager.isNotificationPolicyAccessGranted()) {
+
+                        Toast.makeText(VolumeControlActivity.this, R.string.notification_access, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(
+                                android.provider.Settings
+                                        .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(VolumeControlActivity.this, R.string.notification_access_do_not_disturb, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
