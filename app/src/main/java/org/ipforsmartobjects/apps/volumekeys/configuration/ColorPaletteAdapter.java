@@ -12,14 +12,9 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * Created by Hamid on 4/17/2017.
- */
-
 public class ColorPaletteAdapter extends RecyclerView.Adapter<ColorPaletteAdapter.ViewHolder> {
 
     private List<Integer> mRgbColors;
-    private Context mContext;
     SimpleWidgetConfigActivity.ColorItemListener mItemListener;
 
     public ColorPaletteAdapter(List<Integer> colors, SimpleWidgetConfigActivity.ColorItemListener listener) {
@@ -29,7 +24,7 @@ public class ColorPaletteAdapter extends RecyclerView.Adapter<ColorPaletteAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
+        Context mContext = parent.getContext();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         ColorItemBinding binding = ColorItemBinding.inflate(inflater, parent, false);

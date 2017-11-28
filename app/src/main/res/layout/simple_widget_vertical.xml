@@ -19,6 +19,7 @@
         android:layout_weight="1"
         android:background="@color/colorAccent"
         android:padding="@dimen/widget_margin"
+        android:contentDescription="@string/volume_up_button_content_description"
         android:src="@drawable/ic_add_circle_outline_white" />
 
     <ImageView
@@ -29,6 +30,7 @@
         android:layout_weight="1"
         android:background="@color/colorAccent"
         android:padding="@dimen/widget_margin"
+        android:contentDescription="@string/volume_down_button_content_description"
         android:src="@drawable/ic_remove_circle_outline_white" />
 
 
@@ -40,6 +42,7 @@
         android:layout_margin="@dimen/widget_gap_margin"
         android:layout_weight="1"
         android:background="@color/colorAccent"
+        android:contentDescription="@string/mute_button_content_description"
         android:padding="@dimen/widget_margin"
         android:src="@drawable/ic_volume_off_white" />
 
@@ -50,6 +53,7 @@
         android:layout_margin="@dimen/widget_gap_margin"
         android:layout_weight="1"
         android:padding="@dimen/widget_margin"
+        android:contentDescription="@string/detailed_volume_settings"
         android:src="@drawable/ic_more_white" />
 
 

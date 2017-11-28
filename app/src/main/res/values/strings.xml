@@ -7,4 +7,8 @@
   <string name="make_your_own_widget">Design your own widget</string>
   <string name="background">Background</string>
   <string name="icon_background">Icon Background</string>
+    <string name="mute_button_content_description">mute button</string>
+  <string name="volume_down_button_content_description">volume down button</string>
+  <string name="volume_up_button_content_description">volume up</string>
+  <string name="detailed_volume_settings">detailed volume settings</string>
 </resources>

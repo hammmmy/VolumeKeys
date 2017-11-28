@@ -4,6 +4,7 @@
 
     <application
         android:allowBackup="false"
+        android:name=".VolumeWidgetApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -77,7 +78,12 @@
         <service
             android:name=".volumes.VolumeNotificationService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true"/>
+
+        <!--suppress AndroidDomInspection -->
+        <service
+            android:name=".volumes.FirebaseMessageIntentService"
+            android:exported="false"/>
     </application>
 
 </manifest>

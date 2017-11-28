@@ -3,10 +3,6 @@ package org.ipforsmartobjects.apps.volumekeys.data.local;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-/**
- * Created by Hamid on 5/4/2017.
- */
-
 public class WidgetColorsPersistenceContract {
 
     // Database schema information

@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'udacity'
+            keyPassword 'password'
+            storeFile file('../keystore/keystore.jks')
+            storePassword 'password'
+        }
+    }
     compileSdkVersion 27
     buildToolsVersion '26.0.2'
     defaultConfig {
@@ -12,15 +20,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
-
-    signingConfigs {
-        debug {
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-            storeFile file('keystore/debug.keystore')
-            storePassword 'android'
-        }
-    }
     dataBinding {
         enabled = true
     }
@@ -31,9 +30,9 @@ android {
     }
     buildTypes {
         release {
-
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
@@ -51,17 +50,15 @@ dependencies {
     implementation 'com.google.firebase:firebase-crash:11.0.4'
     implementation 'com.google.firebase:firebase-messaging:11.0.4'
     compile 'com.android.support:multidex:1.0.1'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.3-alpha', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     implementation "com.android.support:support-v4:$androidSupportVersion"
     implementation "com.android.support:appcompat-v7:$androidSupportVersion"
     implementation "com.android.support:design:$androidSupportVersion"
     implementation "com.google.guava:guava:${guavaVersion}"
     implementation "com.google.code.findbugs:jsr305:${guavaConflictFindBugsVersion}"
-
     implementation "com.google.code.gson:gson:${gsonVersion}"
     implementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'junit:junit:4.12'

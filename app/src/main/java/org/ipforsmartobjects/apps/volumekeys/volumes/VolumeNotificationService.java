@@ -11,8 +11,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import static android.content.ContentValues.TAG;
 
 public class VolumeNotificationService extends FirebaseMessagingService {
-    public VolumeNotificationService() {
-    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -21,12 +19,15 @@ public class VolumeNotificationService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-
         }
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Intent serviceIntent = new Intent(VolumeNotificationService.this, FirebaseMessageIntentService.class);
+            serviceIntent.putExtra(FirebaseMessageIntentService.EXTRA_MESSAGE, remoteMessage.getNotification().getBody());
+            startService(serviceIntent);
+
         }
 
     }

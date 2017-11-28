@@ -1,9 +1,5 @@
 package org.ipforsmartobjects.apps.volumekeys.data;
 
-/**
- * Created by Hamid on 3/26/2017.
- */
-
 import android.os.Parcel;
 import android.os.Parcelable;
 

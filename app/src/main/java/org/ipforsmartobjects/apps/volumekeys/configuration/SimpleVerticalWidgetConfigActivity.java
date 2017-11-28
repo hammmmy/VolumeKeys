@@ -9,10 +9,8 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import org.ipforsmartobjects.apps.volumekeys.R;
-import org.ipforsmartobjects.apps.volumekeys.data.WidgetColorLoader;
 import org.ipforsmartobjects.apps.volumekeys.databinding.SimpleWidgetVerticalConfigureBinding;
 import org.ipforsmartobjects.apps.volumekeys.widget.SimpleVerticalWidgetProvider;
-import org.ipforsmartobjects.apps.volumekeys.widget.SimpleWidgetProvider;
 
 public class SimpleVerticalWidgetConfigActivity extends SimpleWidgetConfigActivity {
 

@@ -12,10 +12,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-/**
- * Created by Hamid on 5/4/2017.
- */
-
 public class WidgetColorsProvider extends ContentProvider {
 
     private static final String TAG = WidgetColorsProvider.class.getSimpleName();

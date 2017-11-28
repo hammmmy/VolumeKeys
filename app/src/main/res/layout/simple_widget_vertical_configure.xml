@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             android:layout_margin="8dp"
+            android:contentDescription="@string/add_widget"
             android:text="@string/add_widget" />
 
     </LinearLayout>
