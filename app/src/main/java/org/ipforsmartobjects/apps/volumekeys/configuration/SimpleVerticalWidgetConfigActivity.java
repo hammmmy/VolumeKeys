@@ -3,10 +3,8 @@ package org.ipforsmartobjects.apps.volumekeys.configuration;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 
 import org.ipforsmartobjects.apps.volumekeys.R;
 import org.ipforsmartobjects.apps.volumekeys.databinding.SimpleWidgetVerticalConfigureBinding;
@@ -15,9 +13,8 @@ import org.ipforsmartobjects.apps.volumekeys.widget.SimpleVerticalWidgetProvider
 public class SimpleVerticalWidgetConfigActivity extends SimpleWidgetConfigActivity {
 
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         SimpleWidgetVerticalConfigureBinding mBinding = DataBindingUtil.setContentView(SimpleVerticalWidgetConfigActivity.this,
                 R.layout.simple_widget_vertical_configure);
@@ -30,7 +27,7 @@ public class SimpleVerticalWidgetConfigActivity extends SimpleWidgetConfigActivi
         mVolumeUpButton = mBinding.widgetLayout.volumeUp;
         mVolumeDownButton = mBinding.widgetLayout.volumeDown;
         mMoreButton = mBinding.widgetLayout.actionButtonSettings;
-        initConfigActivity();
+        initConfigActivity(savedInstanceState);
     }
 
     @Override

@@ -37,7 +37,7 @@ captures/
 .idea/workspace.xml
 
 # Keystore files
-*.jks
+#*.jks
 
 # Local configuration file (sdk path, etc)
 /local.properties

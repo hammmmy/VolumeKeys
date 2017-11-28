@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.widget.SeekBar;
@@ -30,7 +31,17 @@ public class VolumeControlActivity extends AppCompatActivity {
         setUI(binding.system, AudioManager.STREAM_SYSTEM);
         setUI(binding.notification, AudioManager.STREAM_NOTIFICATION);
         setUI(binding.voice, AudioManager.STREAM_VOICE_CALL);
-
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(!notificationManager.isNotificationPolicyAccessGranted()) {
+                Toast.makeText(VolumeControlActivity.this, R.string.notification_access, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(
+                        android.provider.Settings
+                                .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                startActivity(intent);
+            }
+        }
 
     }
 
@@ -47,18 +58,12 @@ public class VolumeControlActivity extends AppCompatActivity {
                 } catch (SecurityException e) {
                     NotificationManager notificationManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                            && !notificationManager.isNotificationPolicyAccessGranted()) {
-
-                        Toast.makeText(VolumeControlActivity.this, R.string.notification_access, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(
-                                android.provider.Settings
-                                        .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(VolumeControlActivity.this, R.string.notification_access_do_not_disturb, Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (notificationManager.isNotificationPolicyAccessGranted()) {
+                            notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);
+                        } else {
+                            Toast.makeText(VolumeControlActivity.this, R.string.notification_access_do_not_disturb, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }

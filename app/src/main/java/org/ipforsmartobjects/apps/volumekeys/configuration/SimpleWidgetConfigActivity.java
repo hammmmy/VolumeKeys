@@ -13,21 +13,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import org.ipforsmartobjects.apps.volumekeys.R;
 import org.ipforsmartobjects.apps.volumekeys.data.WidgetColorLoader;
-import org.ipforsmartobjects.apps.volumekeys.data.WidgetColors;
 import org.ipforsmartobjects.apps.volumekeys.databinding.SimpleWidgetConfigureBinding;
 import org.ipforsmartobjects.apps.volumekeys.widget.SimpleWidgetProvider;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SimpleWidgetConfigActivity extends AppCompatActivity implements SimpleWidgetConfigContract.View {
 
+    private static final String SELECTED_BACKGROUND_COLOR = "SELECTED_BACKGROUND_COLOR";
+    private static final String SELECTED_ICON_BACKGROUND_COLOR = "SELECTED_ICON_BACKGROUND_COLOR";
     SimpleWidgetConfigPresenter mActionsListener;
 
 //    SimpleWidgetConfigureBinding mBinding;
@@ -57,6 +54,8 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
     protected ImageView mVolumeUpButton;
     protected ImageView mVolumeDownButton;
     protected ImageView mMoreButton;
+    private Integer mSelectedBackgroundColor;
+    private Integer mSelectedIconBackgroundColor;
 
 
     // Write the prefix to the SharedPreferences object for this widget
@@ -92,8 +91,9 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
     }
 
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
 
         SimpleWidgetConfigureBinding mBinding = DataBindingUtil.setContentView(SimpleWidgetConfigActivity.this,
                 R.layout.simple_widget_configure);
@@ -107,10 +107,10 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
         mVolumeDownButton = mBinding.widgetLayout.volumeDown;
         mMoreButton = mBinding.widgetLayout.actionButtonSettings;
 
-        initConfigActivity();
+        initConfigActivity(savedInstanceState);
     }
 
-    protected void initConfigActivity() {
+    protected void initConfigActivity(Bundle savedInstanceState) {
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if the user presses the back button.
         setResult(RESULT_CANCELED);
@@ -137,11 +137,20 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
             return;
         }
 
-        int primaryColor = ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.colorPrimary);
-        int colorAccent = ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.colorAccent);
 
-        mActionsListener.loadDefaultColors(primaryColor, colorAccent);
+        if (savedInstanceState != null) {
+            // Check whether we're recreating a previously destroyed instance
+            // Restore value of members from saved state
+            mSelectedBackgroundColor = savedInstanceState.getInt(SELECTED_BACKGROUND_COLOR);
+            mSelectedIconBackgroundColor = savedInstanceState.getInt(SELECTED_ICON_BACKGROUND_COLOR);
+            mActionsListener.onWidgetBackgroundColorSelected(mSelectedBackgroundColor);
+            mActionsListener.onIconBackgroundColorSelected(mSelectedIconBackgroundColor);
+        } else {
+            int primaryColor = ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.colorPrimary);
+            int colorAccent = ContextCompat.getColor(SimpleWidgetConfigActivity.this, R.color.colorAccent);
 
+            mActionsListener.loadDefaultColors(primaryColor, colorAccent);
+        }
         mBackgroundRecyclerView.setHasFixedSize(true);
         ColorPaletteAdapter adapter = new ColorPaletteAdapter(mBackgroundColors, new ColorItemListener(){
 
@@ -164,12 +173,25 @@ public class SimpleWidgetConfigActivity extends AppCompatActivity implements Sim
     }
 
     @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putInt(SELECTED_BACKGROUND_COLOR, mSelectedBackgroundColor);
+        savedInstanceState.putInt(SELECTED_ICON_BACKGROUND_COLOR, mSelectedIconBackgroundColor);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
     public void updateBackgroundColor(Integer backgroundColor) {
+        mSelectedBackgroundColor = backgroundColor;
         mLayoutContainer.setBackgroundColor(backgroundColor);
     }
 
     @Override
     public void updateIconBackgroundColor(Integer iconBackgroundColor) {
+        mSelectedIconBackgroundColor = iconBackgroundColor;
+
         mMuteButton.setBackgroundColor(iconBackgroundColor);
         mMuteButton.setImageResource(mIconColorMap.get(iconBackgroundColor) ? R.drawable.ic_volume_off_black : R.drawable.ic_volume_off_white);
 
