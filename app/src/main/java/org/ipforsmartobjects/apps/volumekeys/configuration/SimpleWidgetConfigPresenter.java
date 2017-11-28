@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import org.ipforsmartobjects.apps.volumekeys.data.WidgetColorLoader;
 import org.ipforsmartobjects.apps.volumekeys.data.WidgetColors;
 import org.ipforsmartobjects.apps.volumekeys.data.local.WidgetColorsPersistenceContract;
@@ -85,12 +87,14 @@ public class SimpleWidgetConfigPresenter implements SimpleWidgetConfigContract.P
                 boolean success = mContentResolver.insert(WidgetColorsPersistenceContract.CONTENT_URI, contentValues) != null;
             } catch (SQLException e) {
                 e.printStackTrace();
+                FirebaseCrash.log("SQLException occurred " + e.getMessage());
             }
         } else {
             try {
                 boolean success = mContentResolver.delete(ContentUris.withAppendedId(WidgetColorsPersistenceContract.CONTENT_URI, widgetId), null, null) > 0;
             } catch (SQLException e) {
                 e.printStackTrace();
+                FirebaseCrash.log("SQLException occurred " + e.getMessage());
             }
         }
     }
