@@ -33,6 +33,7 @@ ext {
     guavaVersion = '23.0-android'
     guavaConflictFindBugsVersion = '2.0.1'
     gsonVersion = '2.8.1'
+    leakCanaryVersion = '1.5.4'
 }
 
 dependencies {
@@ -51,6 +52,10 @@ dependencies {
     implementation "com.google.code.findbugs:jsr305:${guavaConflictFindBugsVersion}"
 
     implementation "com.google.code.gson:gson:${gsonVersion}"
+
+
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
     testCompile 'junit:junit:4.12'
 }
 
